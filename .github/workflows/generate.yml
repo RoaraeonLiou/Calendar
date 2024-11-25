@@ -10,7 +10,7 @@ on:
 
 # 任务
 jobs:
-  build-and-push:
+  generate-ics:
     runs-on: ubuntu-latest
 
     steps:
