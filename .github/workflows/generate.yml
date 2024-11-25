@@ -44,7 +44,7 @@ jobs:
           python main.py
 
       - name: Check for changes of static
-        working-directory: ./static
+        working-directory: ./ics
         id: check_static_changes
         run: |
           git add -A
