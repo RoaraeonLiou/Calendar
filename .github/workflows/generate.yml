@@ -31,14 +31,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt 
 
-      # TODO: 拉取static分支, 避免每次都对图片进行全量处理, 同时meta.db存储在static分支
-      - name: pull-static
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ secrets.USER_NAME }}/Calendar
-          ref: ics
-          path: ics
-          token: ${{ secrets.ICS_TOKEN }}
+#      # TODO: 拉取static分支, 避免每次都对图片进行全量处理, 同时meta.db存储在static分支
+#      - name: pull-static
+#        uses: actions/checkout@v4
+#        with:
+#          repository: ${{ secrets.USER_NAME }}/Calendar
+#          ref: ics
+#          path: ics
+#          token: ${{ secrets.ICS_TOKEN }}
 
       - name: Process
         run: |
