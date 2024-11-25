@@ -36,6 +36,10 @@ class BirthdayGenerator(Generator):
                             event.name = f"{name}的生日"
                         else:
                             event.name = f"{name}的{birthday_date.year - birth_year}岁生日"
+                        if birthday_type == "solar":
+                            event.name = event.name + "(阳历)"
+                        else :
+                            event.name = event.name + "(阴历)"
                         event.begin = birthday_date
                         event.end = birthday_date
                         event.make_all_day()

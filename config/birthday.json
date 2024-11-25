@@ -1,14 +1,14 @@
 {
     "birthdays": [
         {
-            "name": "小明",
-            "date": "0000-11-30",
+            "name": "董慧兰心",
+            "date": "2000-12-01",
             "type": "solar",
-            "reminder_days": 3
+            "reminder_days": 7
         },
         {
-            "name": "小红",
-            "date": "2000-12-01",
+            "name": "我",
+            "date": "2000-01-22",
             "type": "lunar",
             "reminder_days": 7
         }
