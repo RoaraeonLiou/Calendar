@@ -62,3 +62,4 @@ jobs:
         run: |
           git -c user.name='github actions by ${{ github.actor }}' -c user.email='NO' commit -m 'update'
           git push "https://${{ secrets.ICS_TOKEN }}@github.com/${{ secrets.USER_NAME }}/${{ secrets.USER_NAME }}.github.io.git" HEAD:ics -f -q
+          
