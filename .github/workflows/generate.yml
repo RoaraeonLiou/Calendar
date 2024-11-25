@@ -59,7 +59,6 @@ jobs:
 
       - name: Commit and push changes for ics
         working-directory: .
-        if: steps.check_static_changes.outputs.changes == 'true'
         run: |
           git -c user.name='github actions by ${{ github.actor }}' -c user.email='NO' commit -m 'Auto-generated files [skip ci]'
           git push "https://${{ secrets.ICS_TOKEN }}@github.com/${{ secrets.USER_NAME }}/Calendar.git" HEAD:main -f -q
