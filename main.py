@@ -1,6 +1,7 @@
 from generators.generator import GeneratorMeta
 
 if __name__ == "__main__":
+    # test
     print(GeneratorMeta.registry)
     for class_name in GeneratorMeta.registry:
         generator = GeneratorMeta.registry.get(class_name)()
