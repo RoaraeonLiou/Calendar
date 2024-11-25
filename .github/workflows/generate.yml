@@ -11,6 +11,7 @@ on:
 # 任务
 jobs:
   generate-ics:
+    if: "!contains(github.event.head_commit.message), '[skip ci]'"
     runs-on: ubuntu-latest
 
     steps:
@@ -43,23 +44,23 @@ jobs:
         run: |
           python main.py
 
-      - name: Check for changes of static
-        working-directory: ./ics
-        id: check_static_changes
-        run: |
-          git add -A
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-            echo "changes=false" >> $GITHUB_OUTPUT
-          else
-            echo "Changes found"
-            echo "changes=true" >> $GITHUB_OUTPUT
-          fi
+#      - name: Check for changes of static
+#        working-directory: ./ics
+#        id: check_static_changes
+#        run: |
+#          git add -A
+#          if git diff --cached --quiet; then
+#            echo "No changes to commit"
+#            echo "changes=false" >> $GITHUB_OUTPUT
+#          else
+#            echo "Changes found"
+#            echo "changes=true" >> $GITHUB_OUTPUT
+#          fi
 
       - name: Commit and push changes for ics
-        working-directory: ./ics
+        working-directory: .
         if: steps.check_static_changes.outputs.changes == 'true'
         run: |
-          git -c user.name='github actions by ${{ github.actor }}' -c user.email='NO' commit -m 'update'
-          git push "https://${{ secrets.ICS_TOKEN }}@github.com/${{ secrets.USER_NAME }}/Calendar.git" HEAD:ics -f -q
+          git -c user.name='github actions by ${{ github.actor }}' -c user.email='NO' commit -m 'Auto-generated files [skip ci]'
+          git push "https://${{ secrets.ICS_TOKEN }}@github.com/${{ secrets.USER_NAME }}/Calendar.git" HEAD:main -f -q
           
