@@ -1,0 +1,64 @@
+# Action Name
+name: Generate ICS Files
+
+# 触发时机
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 1 * *'
+
+# 任务
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 检出仓库
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      # 设置python环境
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt 
+
+      # TODO: 拉取static分支, 避免每次都对图片进行全量处理, 同时meta.db存储在static分支
+      - name: pull-static
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.USER_NAME }}/${{ secrets.USER_NAME }}.github.io
+          ref: ics
+          path: ics
+          token: ${{ secrets.ICS_TOKEN }}
+
+      - name: Process
+        run: |
+          python main.py
+
+      - name: Check for changes of static
+        working-directory: ./static
+        id: check_static_changes
+        run: |
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes found"
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes for static
+        working-directory: ./ics
+        if: steps.check_static_changes.outputs.changes == 'true'
+        run: |
+          git -c user.name='github actions by ${{ github.actor }}' -c user.email='NO' commit -m 'update'
+          git push "https://${{ secrets.ICS_TOKEN }}@github.com/${{ secrets.USER_NAME }}/${{ secrets.USER_NAME }}.github.io.git" HEAD:ics -f -q

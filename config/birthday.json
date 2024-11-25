@@ -1,0 +1,16 @@
+{
+    "birthdays": [
+        {
+            "name": "小明",
+            "date": "0000-11-30",
+            "type": "solar",
+            "reminder_days": 3
+        },
+        {
+            "name": "小红",
+            "date": "2000-12-01",
+            "type": "lunar",
+            "reminder_days": 7
+        }
+    ]
+}
